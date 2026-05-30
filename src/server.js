@@ -9,6 +9,18 @@ const config = getConfig();
 const app = express();
 
 app.disable('x-powered-by');
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', config.frontendOrigin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(204).end();
+    return;
+  }
+
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -25,6 +37,10 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
 
-app.listen(config.port, () => {
-  console.log(`Apple Pay demo server listening on port ${config.port}`);
-});
+if (require.main === module) {
+  app.listen(config.port, () => {
+    console.log(`Apple Pay demo server listening on port ${config.port}`);
+  });
+}
+
+module.exports = app;

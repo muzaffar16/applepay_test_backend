@@ -24,6 +24,7 @@ function getConfig() {
     port: Number(getEnv('PORT', '3001')),
     frontendRoot,
     publicRoot,
+    frontendOrigin: getEnv('FRONTEND_ORIGIN', '*'),
     trustPayments: {
       siteReference: getEnvAny(['TP_SITE_REF', 'TRUST_PAYMENTS_SITE_REFERENCE'], 'test_site12345'),
       jwtUsername: getEnvAny(['TP_TEST_USERNAME', 'TRUST_PAYMENTS_JWT_USERNAME'], 'jwt@rrominternational.com'),
